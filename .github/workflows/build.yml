@@ -28,8 +28,7 @@ jobs:
           host: ftp.circlefreelance.com
           username: ${{secrets.FTP_USERNAME}}
           password: ${{secrets.FTP_PASSWORD}}
-          local: "./" # Assuming the backend files are in the root directory of the repository
-          remote: "./"
+
       - name: Restart Node.js application
         run: |
           ssh ${{ secrets.FTP_USERNAME}}@ftp.circlefreelance.com 'pkill node'  # Stop the existing Node.js process
