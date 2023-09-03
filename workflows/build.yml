@@ -1,0 +1,36 @@
+on:
+  push:
+    branches:
+      - main
+
+name: Node.js Backend Deployment
+
+jobs:
+  deploy:
+    name: Deploy to cPanel
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Deploy to cPanel
+        uses: appleboy/scp-action@master
+        with:
+          host: ftp.circlefreelance.com
+          username: ${{secrets.FTP_USERNAME}}
+          password: ${{secrets.FTP_PASSWORD}}
+          local: "./" # Assuming the backend files are in the root directory of the repository
+          remote: "./"
+      - name: Restart Node.js application
+        run: |
+          ssh ${{ secrets.FTP_USERNAME}}@ftp.circlefreelance.com 'pkill node'  # Stop the existing Node.js process
+          ssh ${{ secrets.FTP_USERNAME }}@ftp.circlefreelance.com 'npm install && node index.js &'  # Install dependencies and start the Node.js application
