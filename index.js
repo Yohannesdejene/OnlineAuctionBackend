@@ -73,6 +73,9 @@ app.get("/", (req, res) => {
   res.send("Now  connected");
 });
 
+app.get("/get", (req, res) => {
+  res.send("get connected");
+});
 app.get("/api/auctionImage/:auctionId", (req, res) => {
   let id = req.params.auctionId;
   console.log("fetch image - ", id);
