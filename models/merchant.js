@@ -55,19 +55,19 @@ module.exports = (sequelize, DataTypes) => {
       },
       identification: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       licenseImage: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       vatimg: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       tendorimg: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       tinNumber: {
         type: DataTypes.STRING,

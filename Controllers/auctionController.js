@@ -503,7 +503,7 @@ exports.chooseWinner = async (req, res) => {
 
     // messages.forEach(async ({ mergedValues, replyMarkup }) => {
     const responseToWinner = await axios.post(apiUrl, {
-      chat_id: 455446785,
+      chat_id: winner.id,
       text: `You have been the winner for this auction \n ${mergedValues}`,
     });
 
