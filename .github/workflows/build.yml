@@ -28,6 +28,8 @@ jobs:
           host: ftp.circlefreelance.com
           username: ${{secrets.FTP_USERNAME}}
           password: ${{secrets.FTP_PASSWORD}}
+          source: "dist" # Upload only the "dist" directory and its contents
+          target: "~/chereta_back_end"
 
       - name: Restart Node.js application
         run: |
