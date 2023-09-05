@@ -36,7 +36,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: ["https://ethchereta.com/"],
     credentials: true,
   })
 );
@@ -74,7 +74,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/get", (req, res) => {
-  res.send("chnaged new thing from local");
+  res.send("change accepted");
 });
 app.get("/api/auctionImage/:auctionId", (req, res) => {
   let id = req.params.auctionId;
