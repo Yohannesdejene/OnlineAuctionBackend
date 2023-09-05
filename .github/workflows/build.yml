@@ -28,3 +28,4 @@ jobs:
           host: ftp.circlefreelance.com
           username: ${{secrets.FTP_USERNAME}}
           password: ${{secrets.FTP_PASSWORD}}
+          source: ./
