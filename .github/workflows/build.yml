@@ -1,31 +1,26 @@
-on:
-  push:
-    branches:
-      - main
-
-name: Node.js Backend Deployment
-
+on: push
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
-    name: Deploy to cPanel
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
+      - name: Use Node.js 16
         uses: actions/setup-node@v2
         with:
           node-version: "16"
 
-      - name: Install dependencies
-        run: npm install
+      - name: 🔨 install dependicies
+        run: |
+          npm install
 
-      - name: Deploy to cPanel
-        uses: appleboy/scp-action@master
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
-          host: ftp.circlefreelance.com
-          username: johnabiCheretaBackEnd@api.ethchereta.com
-          password: Yodej0946!
-          source: ./
+          server: ftp.circlefreelance.com
+          username: ${{ secrets.FTP_USERNAME}}
+          password: ${{ secrets.FTP_PASSWORD}}
+          local-dir: ./
