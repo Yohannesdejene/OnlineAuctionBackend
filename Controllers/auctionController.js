@@ -352,7 +352,8 @@ exports.detail = async (req, res) => {
   try {
     const auction = await Auction.findOne({
       where: { id: id },
-      include: { model: Product },
+    
+      include: [{ model: Product }, { model: Company }],
     });
 
     if (!auction) {
