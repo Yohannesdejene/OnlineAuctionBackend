@@ -74,7 +74,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/get", (req, res) => {
-  res.send("get connected new change detected form local");
+  res.send("chnaged new thing from local");
 });
 app.get("/api/auctionImage/:auctionId", (req, res) => {
   let id = req.params.auctionId;
