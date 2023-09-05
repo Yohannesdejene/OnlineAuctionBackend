@@ -28,10 +28,10 @@ jobs:
           host: ftp.circlefreelance.com
           username: ${{secrets.FTP_USERNAME}}
           password: ${{secrets.FTP_PASSWORD}}
-          source: "dist" # Upload only the "dist" directory and its contents
+          source: "./" # Upload only the "dist" directory and its contents
           target: "~/chereta_back_end"
 
       - name: Restart Node.js application
         run: |
           ssh ${{ secrets.FTP_USERNAME}}@ftp.circlefreelance.com 'pkill node'  # Stop the existing Node.js process
-          ssh ${{ secrets.FTP_USERNAME }}@ftp.circlefreelance.com 'npm install && node index.js &'  # Install dependencies and start the Node.js application
+          ssh ${{ secrets.FTP_USERNAME }}@ftp.circlefreelance.com 'npm install && node index.js &'  # Install dependencies and it sstart the Node.js application

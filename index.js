@@ -74,7 +74,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/get", (req, res) => {
-  res.send("get connected");
+  res.send("get connected new change detected form local");
 });
 app.get("/api/auctionImage/:auctionId", (req, res) => {
   let id = req.params.auctionId;
@@ -98,6 +98,7 @@ app.get("/api/auctionImage/:auctionId", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
+      return res.status(404).send({ error: err });
     });
 });
 
