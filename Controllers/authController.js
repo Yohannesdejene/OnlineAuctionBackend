@@ -660,7 +660,7 @@ exports.login = async (req, res) => {
   }
 };
 exports.logout = async (req, res) => {
-  console.log("we are here");
+  console.log("you are logged out");
   try {
     // Clear the user's session cookie
     res.clearCookie("u");

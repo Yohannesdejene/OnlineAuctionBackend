@@ -66,6 +66,7 @@ const upload = multer({ storage: storage });
 
 exports.createAuction = async (req, res, next) => {
   try {
+    console.log("datata", req.body);
     const {
       auctionName,
       startDate,
@@ -98,7 +99,7 @@ exports.createAuction = async (req, res, next) => {
 
     const user = await User.findOne({ where: { id: req.user.id } });
     const company = await Company.findOne({ where: { id: user.CompanyId } });
-
+    console.log("company name", user);
     const image = req.file ? req.file.filename : null;
 
     const noOfProducts = parsedData.length;
@@ -129,7 +130,7 @@ exports.createAuction = async (req, res, next) => {
         AuctionId: auction.id,
       });
     }
-
+    console.log("data sent", auction);
     console.log("path", auction.image);
     const imageFilePath = path.join(
       __dirname,
@@ -151,9 +152,7 @@ exports.createAuction = async (req, res, next) => {
     const username_for_channel = "cheretabott"; // Replace with the actual username
     const botUsername = "cheretabotbot"; // Replace with your bot's username
     //const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${auction.id}`;
-    const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${
-      auction.id
-    }companyName=${"companyname"}`;
+    const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${auction.id}`;
 
     // const replyMarkup = {
     //   inline_keyboard: [[{ text: "Apply for Chereta", url: startLink }]],
@@ -352,7 +351,7 @@ exports.detail = async (req, res) => {
   try {
     const auction = await Auction.findOne({
       where: { id: id },
-    
+
       include: [{ model: Product }, { model: Company }],
     });
 
