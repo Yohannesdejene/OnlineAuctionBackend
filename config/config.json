@@ -16,7 +16,7 @@
   "production": {
     "username": "circlefr_johnabi",
     "password": "Yodej0946!",
-    "database": "chereta",
+    "database": "circlefr_chereta",
     "host": "circlefreelance.com",
     "dialect": "mysql"
   }

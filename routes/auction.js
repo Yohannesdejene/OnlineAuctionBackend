@@ -158,5 +158,17 @@ router.get(
   authCheck,
   auctionController.allClosedAuction
 );
+router.get(
+  "/myAuctionsStats",
+  checkInternetConnection,
+  authCheck,
+  auctionController.myAuctionStats
+);
 
+router.get(
+  "/stats",
+  checkInternetConnection,
+  authCheck,
+  auctionController.stats
+);
 module.exports = router;

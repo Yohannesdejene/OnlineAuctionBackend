@@ -66,7 +66,11 @@ function sendVerificationEmail(email, code) {
     from: "yohannesdejene23@gmail.com",
     to: email,
     subject: "User verification code",
-    text: `Your OTP Verification code is ${code}. Use this password and verify your account.`,
+
+    html: `
+    <p>Verify your OTP with this <a href="https://ethchereta.com/otp" style="color: blue;">link</a>.</p>
+    <p>Your OTP Verification code is ${code}. Use this password and verify your account.</p>
+  `,
   };
 
   transporter
@@ -672,7 +676,67 @@ exports.logout = async (req, res) => {
     return res.status(500).json({ message: "Failed to logout", error });
   }
 };
+
 exports.setPassword = async (req, res) => {
+  const newPassword = req.body.newPassword;
+  try {
+    const userId = req.user.id;
+    // Perform further actions based on the decoded JWT
+
+    console.log("checking");
+    const user = await User.findOne({ where: { id: userId } });
+    if (user) {
+      const saltRounds = 10;
+
+      // Hash the password
+      // const plainPassword = "myPassword123";
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hashedPassword = bcrypt.hashSync(newPassword, salt);
+
+      // const saltRounds = 10;
+      // const salt = bcrypt.genSaltSync(saltRounds);
+      // const codeString = newPassword.toString();
+      // const hashedCode = await bcrypt.hashSync(codeString, salt);
+
+      User.update({ password: hashedPassword }, { where: { id: user.id } })
+        .then((data) => {
+          console.log("datat", data);
+
+          const payload = { id: user.id, userType: user.userType };
+          const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "30d",
+          });
+          console.log("token send to cookie", token);
+          res.cookie("u", token, {
+            httpOnly: true,
+            sameSite: "none",
+            secure: true,
+            maxAge: 2592000000,
+          });
+          const { id, email, firstName, lastName, userType } = user;
+
+          // Create a new object with the extracted properties
+          const userData = { id, email, firstName, lastName, userType };
+
+          return res.status(200).json({ userData });
+        })
+        .catch((err) => {
+          console.log("Error something", err);
+          return res
+            .status(404)
+            .json({ message: "failed to set password", errr });
+        });
+    } else {
+      return res.status(409).send("un known error");
+    }
+
+    // Check if any matching record is found
+  } catch (error) {
+    console.log("Error", error);
+    return res.status(500).json({ message: "failed to set password", error });
+  }
+};
+exports.changePassword = async (req, res) => {
   const newPassword = req.body.newPassword;
   try {
     const userId = req.user.id;

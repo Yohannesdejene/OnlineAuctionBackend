@@ -202,3 +202,51 @@ exports.approveMerchant = async (req, res) => {
     res.status(403).send("Not authorized");
   }
 };
+exports.changePassword = async (req, res) => {
+  const newPassword = req.body.newPassword;
+  try {
+    const userId = req.user.id;
+    // Perform further actions based on the decoded JWT
+
+    console.log("checking");
+    const user = await User.findOne({ where: { id: userId } });
+    if (user) {
+      const saltRounds = 10;
+
+      // Hash the password
+      // const plainPassword = "myPassword123";
+      const salt = bcrypt.genSaltSync(saltRounds);
+      const hashedPassword = bcrypt.hashSync(newPassword, salt);
+
+      // const saltRounds = 10;
+      // const salt = bcrypt.genSaltSync(saltRounds);
+      // const codeString = newPassword.toString();
+      // const hashedCode = await bcrypt.hashSync(codeString, salt);
+
+      User.update({ password: hashedPassword }, { where: { id: user.id } })
+        .then((data) => {
+          console.log("datat", data);
+
+          const { id, email, firstName, lastName, userType } = user;
+
+          // Create a new object with the extracted properties
+          const userData = { id, email, firstName, lastName, userType };
+
+          return res.status(200).json({ userData });
+        })
+        .catch((err) => {
+          console.log("Error something", err);
+          return res
+            .status(404)
+            .json({ message: "failed to set password", errr });
+        });
+    } else {
+      return res.status(409).send("un known error");
+    }
+
+    // Check if any matching record is found
+  } catch (error) {
+    console.log("Error", error);
+    return res.status(500).json({ message: "failed to set password", error });
+  }
+};

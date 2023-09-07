@@ -152,7 +152,9 @@ exports.createAuction = async (req, res, next) => {
     const username_for_channel = "cheretabott"; // Replace with the actual username
     const botUsername = "cheretabotbot"; // Replace with your bot's username
     //const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${auction.id}`;
-    const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${auction.id}`;
+    const startLink = `https://t.me/${botUsername}?start=${username_for_channel}${
+      auction.id
+    }companyName=${"companyname"}`;
 
     // const replyMarkup = {
     //   inline_keyboard: [[{ text: "Apply for Chereta", url: startLink }]],
@@ -212,6 +214,7 @@ exports.createAuction = async (req, res, next) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
 exports.myAuctions = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
@@ -504,7 +507,7 @@ exports.chooseWinner = async (req, res) => {
     // messages.forEach(async ({ mergedValues, replyMarkup }) => {
     const responseToWinner = await axios.post(apiUrl, {
       chat_id: winner.id,
-      text: `You have been the winner for this auction \n ${mergedValues}`,
+      text: `You have been seledcted as the winner for this auction \n ${mergedValues}`,
     });
 
     console.log("Message sent to Telegram channel:", response.data);
@@ -596,5 +599,47 @@ exports.allClosedAuction = async (req, res) => {
     return res.status(200).json({ auctions, count });
   } catch (error) {
     return res.status(500).json({ error: error.message });
+  }
+};
+
+exports.myAuctionStats = async (req, res) => {
+  try {
+    // Get counts of open and closed auctions
+    const userId = req.user.id;
+
+    const user = await User.findOne({
+      where: { id: userId },
+    });
+    const companyId = await user.CompanyId;
+
+    const [openAuctions, closedAuctions] = await Promise.all([
+      Auction.count({ where: { status: "open", CompanyId: companyId } }),
+      Auction.count({ where: { status: "closed", CompanyId: companyId } }),
+    ]);
+
+    // Send response with auction stats
+    res.json({
+      auction: { openAuctions, closedAuctions },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+exports.stats = async (req, res) => {
+  try {
+    // Get counts of open and closed auctions
+    const [openAuctions, closedAuctions] = await Promise.all([
+      Auction.count({ where: { status: "open" } }),
+      Auction.count({ where: { status: "closed" } }),
+    ]);
+
+    // Send response with auction stats
+    res.json({
+      auction: { openAuctions, closedAuctions },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

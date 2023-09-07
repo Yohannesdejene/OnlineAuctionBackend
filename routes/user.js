@@ -153,5 +153,11 @@ router.put(
   authCheck,
   userController.approveMerchant
 );
+router.put(
+  "/changePassword",
+  checkInternetConnection,
+  authCheck,
+  userController.changePassword
+);
 
 module.exports = router;
