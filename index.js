@@ -57,13 +57,13 @@ async function tableChange() {
   await Merchant.sync({ alter: true });
   // await Bid.sync({ alter: true });
   // await ProductBid.sync({ force: true });
-  await PdfFile.sync({ force: true });
+  await PdfFile.sync({ alter: true });
 
   // sequelize.sync({ force: true });
   console.log("finished");
 }
 
-tableChange();
+// tableChange();
 
 // app.use(jsonParser);
 app.use(cookieParser());
