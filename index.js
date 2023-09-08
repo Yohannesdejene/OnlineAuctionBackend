@@ -24,6 +24,7 @@ const {
   Merchant,
   Bid,
   ProductBid,
+  PdfFile,
 } = sequelize.models;
 
 const PORT = process.env.PORT || 3000;
@@ -56,6 +57,7 @@ async function tableChange() {
   await Merchant.sync({ alter: true });
   // await Bid.sync({ alter: true });
   // await ProductBid.sync({ force: true });
+  await PdfFile.sync({ force: true });
 
   // sequelize.sync({ force: true });
   console.log("finished");
@@ -77,6 +79,7 @@ app.get("/", (req, res) => {
 app.get("/get", (req, res) => {
   res.send("change finished");
 });
+
 app.get("/api/auctionImage/:auctionId", (req, res) => {
   let id = req.params.auctionId;
   console.log("fetch image - ", id);

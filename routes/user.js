@@ -1,9 +1,9 @@
 require("dotenv");
 const { sequelize } = require("../models");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+
 const router = require("express").Router();
-var bodyParser = require("body-parser");
+
 const cors = require("cors");
 const dns = require("dns");
 const { uid } = require("uid");
