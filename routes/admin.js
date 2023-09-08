@@ -100,5 +100,16 @@ router.get(
 
   adminController.getPdf
 );
+router.get(
+  "/low/latest",
+
+  adminController.getLow
+);
+router.post(
+  "/uploadLow",
+
+  uploadPdf.single("pdf"),
+  adminController.uploadLow
+);
 
 module.exports = router;
