@@ -25,6 +25,7 @@ const {
   Bid,
   ProductBid,
   PdfFile,
+  PdfLow,
 } = sequelize.models;
 
 const PORT = process.env.PORT || 3000;
@@ -57,7 +58,8 @@ async function tableChange() {
   await Merchant.sync({ alter: true });
   // await Bid.sync({ alter: true });
   // await ProductBid.sync({ force: true });
-  await PdfFile.sync({ alter: true });
+  // await PdfFile.sync({ alter: true });
+  await PdfLow.sync({ force: true });
 
   // sequelize.sync({ force: true });
   console.log("finished");

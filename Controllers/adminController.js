@@ -11,6 +11,7 @@ const {
   Company,
   Auction,
   PdfFile,
+  PdfLow,
   Product_Auction,
   Passcode,
   Merchant,
@@ -48,7 +49,7 @@ async function saveLowFile(file) {
   fs.writeFileSync(filepath, buffer);
 
   // Save metadata to the database
-  const pdfFile = await PdfFile.create({
+  const pdfFile = await PdfLow.create({
     id: "",
     filename,
     filepath,
