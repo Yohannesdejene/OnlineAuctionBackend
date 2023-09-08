@@ -63,7 +63,7 @@ async function tableChange() {
   console.log("finished");
 }
 
-// tableChange();
+tableChange();
 
 // app.use(jsonParser);
 app.use(cookieParser());
