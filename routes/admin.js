@@ -91,7 +91,8 @@ async function savePdfFile(file) {
 
 router.post(
   "/uploadPdf",
-
+  checkInternetConnection,
+  authCheck,
   uploadPdf.single("pdf"),
   adminController.uploadPdf
 );
@@ -107,7 +108,8 @@ router.get(
 );
 router.post(
   "/uploadLow",
-
+  checkInternetConnection,
+  authCheck,
   uploadPdf.single("pdf"),
   adminController.uploadLow
 );

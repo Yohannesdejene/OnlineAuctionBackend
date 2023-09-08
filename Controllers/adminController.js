@@ -102,7 +102,7 @@ exports.uploadLow = async (req, res) => {
   }
 };
 exports.getLow = async (req, res) => {
-  const pdfFile = await PdfFile.findOne({
+  const pdfFile = await PdfLow.findOne({
     order: [["createdAt", "DESC"]],
   });
 
