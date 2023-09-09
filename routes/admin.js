@@ -97,12 +97,13 @@ router.post(
   adminController.uploadPdf
 );
 router.get(
-  "/pdfs/latest",
+  "/pdfs/TermsAndPolicies",
 
   adminController.getPdf
 );
+// THE-ETHIOPIAN FEDERAL GOVERNMENT PROCUREMENT AND PROPERTY ADMINISTRATION PROCLAMATION
 router.get(
-  "/low/latest",
+  "/low/EthiopianGovernmentProcurmentAndPropertyAdministrationProculamation",
 
   adminController.getLow
 );
