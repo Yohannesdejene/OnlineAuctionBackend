@@ -124,6 +124,55 @@ router.get(
   auctionController.bids
 );
 
+router.get("/highPrice/:auctionId/:productId", async (req, res) => {
+  const { auctionId } = req.params;
+  const { productId } = req.params;
+
+  // const { page } = req.query;
+  // const pageSize = 10;
+  // const offset = (page - 1) * pageSize;
+  try {
+    const totalMerchants = await Merchant.count({
+      distinct: true,
+      include: [
+        {
+          model: Bid,
+          where: {
+            AuctionId: auctionId,
+            ProductId: productId,
+          },
+          attributes: [],
+        },
+      ],
+    });
+
+    const merchants = await Merchant.findAll({
+      include: [
+        {
+          model: Bid,
+          where: {
+            AuctionId: auctionId,
+            ProductId: productId,
+          },
+          attributes: [],
+        },
+      ],
+
+      order: [["createdAt", "DESC"]],
+    });
+    const highestBid = await Bid;
+
+    if (!merchants || merchants.length === 0) {
+      return res.status(404).send("No bids found");
+    }
+
+    return res.status(200).json({ totalMerchants, merchants });
+  } catch (error) {
+    console.error("An error occurred while retrieving bids:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 router.get(
   "/getOnePersonBid/:auctionId/:userId",
   checkInternetConnection,
@@ -163,6 +212,12 @@ router.get(
   checkInternetConnection,
   authCheck,
   auctionController.myAuctionStats
+);
+router.put(
+  "/closeAuctionBeforeTime/:auctionId",
+  checkInternetConnection,
+  authCheck,
+  auctionController.closeAuctionBeforeTime
 );
 
 router.get(

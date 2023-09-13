@@ -215,6 +215,23 @@ exports.createAuction = async (req, res, next) => {
   }
 };
 
+exports.closeAuctionBeforeTime = async (req, res) => {
+  console.log("ehehehehh");
+  const { auctionId } = req.params;
+
+  try {
+    // Find the user's company
+
+    const updated = await Auction.update(
+      { status: "closed" },
+      { where: { id: auctionId } }
+    );
+    return res.status(200).json({ updated });
+  } catch (error) {
+    console.error("An error occurred while retrieving auctions:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 exports.myAuctions = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;

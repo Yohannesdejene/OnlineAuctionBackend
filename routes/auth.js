@@ -149,9 +149,18 @@ router.post(
   authController.registerAssistant
 );
 
-router.post("/verifyOTP", checkInternetConnection, authController.verifyOTP);
+router.post(
+  "/verifyOTP",
+  checkInternetConnection,
 
-router.post("/resend", checkInternetConnection, authController.resendOPT);
+  authController.verifyOTP
+);
+
+router.post(
+  "/resend",
+  //  checkInternetConnection,
+  authController.resendOPT
+);
 
 router.post("/login", checkInternetConnection, authController.login);
 

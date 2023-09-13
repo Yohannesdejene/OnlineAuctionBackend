@@ -226,7 +226,6 @@ exports.changePassword = async (req, res) => {
       User.update({ password: hashedPassword }, { where: { id: user.id } })
         .then((data) => {
           console.log("datat", data);
-
           const { id, email, firstName, lastName, userType } = user;
 
           // Create a new object with the extracted properties

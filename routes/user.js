@@ -1,15 +1,10 @@
 require("dotenv");
 const { sequelize } = require("../models");
 const jwt = require("jsonwebtoken");
-
 const router = require("express").Router();
 
-const cors = require("cors");
 const dns = require("dns");
-const { uid } = require("uid");
-const { Op } = require("sequelize");
 const nodemailer = require("nodemailer");
-const crypto = require("crypto");
 const user = require("../models/user");
 
 const { User, Product, Company, Auction, Product_Auction, Passcode, Merchant } =
