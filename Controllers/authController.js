@@ -100,8 +100,60 @@ exports.checkLogin = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+exports.signup = async (req, res) => {
+  const { companyName, email, firstName, lastName, password } = req.body;
+
+  let branch;
+  if (req.body.branch) {
+    branch = req.body.branch;
+  }
+
+  try {
+    const [existingUser, existingCompany] = await Promise.all([
+      User.findOne({ where: { email } }),
+      Company.findOne({ where: { email } }),
+    ]);
+
+    if (existingUser || existingCompany) {
+      console.log("Email address is already registered");
+      return res.status(409).send("Email address is already registered");
+    }
+
+    const company = await Company.create({
+      id: "",
+      email: email,
+      companyName: companyName,
+      branch: branch,
+      // Other company properties...
+    });
+
+    const companyId = company.id;
+
+    const saltRounds = 10;
+    const salt = bcrypt.genSaltSync(saltRounds);
+    // const passwordString = password.toString();
+    const hashedPassword = await bcrypt.hashSync(password, salt);
+    await User.create({
+      id: "",
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      password: hashedPassword,
+      userType: 3,
+      CompanyId: companyId,
+      managerId: null,
+      // Other user properties...
+    });
+
+    return res.status(200).send("Successfully registered company ");
+  } catch (err) {
+    console.error("Error:", err);
+    return res.status(500).send("Error in database");
+  }
+};
+
 exports.registerCompany = async (req, res) => {
-  const { companyName, email, firstName, lastName } = req.body;
+  const {companyName, email, firstName, lastName, password } = req.body;
 
   let branch;
   if (req.body.branch) {
@@ -427,7 +479,7 @@ exports.registerAssistant = async (req, res) => {
     branch = req.body.branch;
   }
   console.log("the user Type", req.user);
-  if (req.user.userType == 1 || req.user.userType == 4) {
+  if (req.user.userType == 1 || req.user.userType == 3||req.user.userType == 4) {
     let user = await User.findOne({
       where: {
         [Op.or]: [{ email: email }],
@@ -511,7 +563,7 @@ exports.registerAssistant = async (req, res) => {
       }
     }
   } else {
-    return res.status(403).send("anutherizwed access");
+    return res.status(403).send("anutherized access");
   }
 };
 exports.verifyOTP = async (req, res) => {
@@ -736,4 +788,3 @@ exports.setPassword = async (req, res) => {
     return res.status(500).json({ message: "failed to set password", error });
   }
 };
-

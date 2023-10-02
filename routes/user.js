@@ -141,6 +141,12 @@ router.get(
   authCheck,
   userController.approveMerchantDetail
 );
+router.get(
+  "/getAllCommittee",
+  checkInternetConnection,
+  authCheck,
+  userController.getAllCommittee
+);
 
 router.put(
   "/approveMerchant/:merchantId",
@@ -153,6 +159,12 @@ router.put(
   checkInternetConnection,
   authCheck,
   userController.changePassword
+);
+router.get(
+  "/totalUsers",
+  checkInternetConnection,
+  authCheck,
+  userController.totalUsers
 );
 
 module.exports = router;

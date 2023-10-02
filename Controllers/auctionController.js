@@ -83,7 +83,7 @@ exports.createAuction = async (req, res, next) => {
       !startDate ||
       !endDate ||
       !description ||
-      // !category ||
+      !category ||
       !rules ||
       !address ||
       !products
@@ -112,7 +112,7 @@ exports.createAuction = async (req, res, next) => {
       description,
       rules,
       address,
-      category: category || 1,
+      category: category,
       status: "open",
       image,
       noOfProducts,
@@ -214,7 +214,6 @@ exports.createAuction = async (req, res, next) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.closeAuctionBeforeTime = async (req, res) => {
   console.log("ehehehehh");
   const { auctionId } = req.params;
@@ -235,7 +234,7 @@ exports.closeAuctionBeforeTime = async (req, res) => {
 exports.myAuctions = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 100;
   const offset = (page - 1) * pageSize;
 
   try {
@@ -279,7 +278,7 @@ exports.myAuctions = async (req, res) => {
 exports.myOpenAuctions = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
 
   try {
@@ -323,7 +322,7 @@ exports.myOpenAuctions = async (req, res) => {
 exports.myClosedAuctions = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
 
   try {
@@ -364,7 +363,6 @@ exports.myClosedAuctions = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.detail = async (req, res) => {
   const { id } = req.params;
 
@@ -385,11 +383,10 @@ exports.detail = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.bids = async (req, res) => {
   const { auctionId } = req.params;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
 
   try {
@@ -468,7 +465,6 @@ exports.getOnePersonBid = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
 exports.chooseWinner = async (req, res) => {
   const { auctionId, winnerId } = req.params;
 
@@ -569,7 +565,7 @@ exports.getWinner = async (req, res) => {
 exports.allOpenAuction = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
   try {
     const count = await Auction.count({
@@ -595,7 +591,7 @@ exports.allOpenAuction = async (req, res) => {
 exports.allClosedAuction = async (req, res) => {
   const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
   try {
     // Find the user's company
@@ -618,7 +614,6 @@ exports.allClosedAuction = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
-
 exports.myAuctionStats = async (req, res) => {
   try {
     // Get counts of open and closed auctions
@@ -650,13 +645,15 @@ exports.stats = async (req, res) => {
       Auction.count({ where: { status: "open" } }),
       Auction.count({ where: { status: "closed" } }),
     ]);
-
+    const auctions = await Auction.findAll();
     // Send response with auction stats
     res.json({
-      auction: { openAuctions, closedAuctions },
+      auction: { openAuctions, closedAuctions, auctions },
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+/////

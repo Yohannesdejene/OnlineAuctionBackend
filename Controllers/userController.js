@@ -100,7 +100,7 @@ exports.profile = async (req, res) => {
 exports.getAllUnApprovedMerchant = async (req, res) => {
   // const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
   // if (req.user.userType == 1) {
   try {
@@ -124,7 +124,7 @@ exports.getAllUnApprovedMerchant = async (req, res) => {
 exports.getAllCompanies = async (req, res) => {
   // const userId = req.user.id;
   const { page } = req.query;
-  const pageSize = 10;
+  const pageSize = 1000;
   const offset = (page - 1) * pageSize;
   // if (req.user.userType == 1) {
   try {
@@ -247,5 +247,55 @@ exports.changePassword = async (req, res) => {
   } catch (error) {
     console.log("Error", error);
     return res.status(500).json({ message: "failed to set password", error });
+  }
+};
+exports.getAllCommittee = async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 4;
+    const startIndex = (page - 1) * limit;
+    const user = await User.findByPk(req.user.id);
+    const companyId = user.CompanyId;
+    const users = await User.findAll({
+      where: { userType: 5, CompanyId: companyId },
+      offset: startIndex,
+      limit: limit,
+    });
+
+    const result = users.map((user) => ({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      number: user.number,
+    }));
+
+    const total = await User.count({
+      where: { userType: 5, CompanyId: companyId },
+    });
+
+    const pagination = {
+      currentPage: page,
+      totalPages: Math.ceil(total / limit),
+      totalItems: total,
+    };
+
+    res.json({ result, pagination });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+exports.totalUsers = async (req, res) => {
+  try {
+    const [companies, merchants] = await Promise.all([
+      Company.count(),
+      Merchant.count(),
+    ]);
+    res.json({
+      user: { companies, merchants },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };

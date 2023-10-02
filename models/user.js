@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 5,
       },
 
-      //// userType  1=mainAdmin  2=sales 3=companyAdmin 4 =procurment 5=assistant  6=merchants
+      //// userType  1=mainAdmin  2=sales 3=companyAdmin 4 =procurment 5=assistant  6=merchants 7=committe,
     },
     {
       sequelize,

@@ -114,7 +114,12 @@ router.post(
   authCheck,
   authController.registerCompany
 );
+router.post(
+  "/signup",
+  checkInternetConnection,
 
+  authController.signup
+);
 router.post(
   "/registerMerchant",
   checkInternetConnection,

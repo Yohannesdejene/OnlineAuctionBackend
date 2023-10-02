@@ -1,23 +1,23 @@
 {
   "development": {
-    "username": "circlefr_johnabi",
-    "password": "Yodej0946!",
-    "database": "circlefr_chereta",
-    "host": "circlefreelance.com",
+    "username": "root",
+    "password": "",
+    "database": "chereta",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "test": {
-    "username": "circlefr_johnabi",
-    "password": "Yodej0946!",
-    "database": "circlefr_chereta",
-    "host": "circlefreelance.com",
+    "username": "root",
+    "password": null,
+    "database": "chereta",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
-    "username": "circlefr_johnabi",
-    "password": "Yodej0946!",
-    "database": "circlefr_chereta",
-    "host": "circlefreelance.com",
+    "username": "root",
+    "password": null,
+    "database": "chereta",
+    "host": "localhost",
     "dialect": "mysql"
   }
 }
