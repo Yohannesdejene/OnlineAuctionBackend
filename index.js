@@ -79,7 +79,7 @@ app.use("/api/auction", auctionRoute);
 app.use("/api/admin", admin);
 
 app.get("/", (req, res) => {
-  res.send("new era");
+  res.send("new change form the local");
 });
 
 app.get("/get", (req, res) => {
@@ -146,7 +146,7 @@ app.get("/api/checkAuctionStatus", async (req, res) => {
 const callAuctionStatusAPI = async () => {
   try {
     // Make a request to the API endpoint using Axios
-    await axios.get("http://api.ethchereta.com/api/checkAuctionStatus");
+    await axios.get("https://api.ethchereta.com/api/checkAuctionStatus");
     console.log("API called successfully.");
   } catch (error) {
     console.error("Error calling the API:", error);
