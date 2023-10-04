@@ -79,7 +79,7 @@ app.use("/api/auction", auctionRoute);
 app.use("/api/admin", admin);
 
 app.get("/", (req, res) => {
-  res.send("chnaged and  connected");
+  res.send("now is the  connected");
 });
 
 app.get("/get", (req, res) => {
