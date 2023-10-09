@@ -616,6 +616,7 @@ exports.allClosedAuction = async (req, res) => {
 };
 exports.myAuctionStats = async (req, res) => {
   try {
+    console.log("hello");
     // Get counts of open and closed auctions
     const userId = req.user.id;
 
@@ -624,14 +625,15 @@ exports.myAuctionStats = async (req, res) => {
     });
     const companyId = await user.CompanyId;
 
-    const [openAuctions, closedAuctions] = await Promise.all([
+    const [openAuctions, closedAuctions, total] = await Promise.all([
       Auction.count({ where: { status: "open", CompanyId: companyId } }),
       Auction.count({ where: { status: "closed", CompanyId: companyId } }),
+      Auction.count({ where: { CompanyId: companyId } }),
     ]);
 
     // Send response with auction stats
     res.json({
-      auction: { openAuctions, closedAuctions },
+      auction: { openAuctions, closedAuctions, total },
     });
   } catch (error) {
     console.error(error);
@@ -641,14 +643,15 @@ exports.myAuctionStats = async (req, res) => {
 exports.stats = async (req, res) => {
   try {
     // Get counts of open and closed auctions
-    const [openAuctions, closedAuctions] = await Promise.all([
+    const [openAuctions, closedAuctions, total] = await Promise.all([
       Auction.count({ where: { status: "open" } }),
       Auction.count({ where: { status: "closed" } }),
+      Auction.count({}),
     ]);
     const auctions = await Auction.findAll();
     // Send response with auction stats
     res.json({
-      auction: { openAuctions, closedAuctions, auctions },
+      auction: { openAuctions, closedAuctions, auctions, total },
     });
   } catch (error) {
     console.error(error);

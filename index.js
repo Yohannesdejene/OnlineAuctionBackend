@@ -157,7 +157,7 @@ const callAuctionStatusAPI = async () => {
 const interval = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
 // const interval = 10 * 60 * 1000; // 10 minutes in milliseconds
-setInterval(callAuctionStatusAPI, interval);
+// setInterval(callAuctionStatusAPI, interval);
 
 app.listen(PORT, (error) => {
   if (!error) {

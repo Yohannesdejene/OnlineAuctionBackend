@@ -153,7 +153,7 @@ exports.signup = async (req, res) => {
 };
 
 exports.registerCompany = async (req, res) => {
-  const {companyName, email, firstName, lastName, password } = req.body;
+  const { companyName, email, firstName, lastName, password } = req.body;
 
   let branch;
   if (req.body.branch) {
@@ -479,7 +479,11 @@ exports.registerAssistant = async (req, res) => {
     branch = req.body.branch;
   }
   console.log("the user Type", req.user);
-  if (req.user.userType == 1 || req.user.userType == 3||req.user.userType == 4) {
+  if (
+    req.user.userType == 1 ||
+    req.user.userType == 3 ||
+    req.user.userType == 4
+  ) {
     let user = await User.findOne({
       where: {
         [Op.or]: [{ email: email }],
