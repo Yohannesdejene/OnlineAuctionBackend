@@ -52,7 +52,7 @@ Before you begin, ensure you have the following installed:
 1. **Create a MySQL database:**
 
     ```sql
-    CREATE DATABASE real_estate_app;
+    CREATE DATABASE chereta;
     ```
 
 2. **Set up environment variables:**
@@ -64,7 +64,7 @@ Before you begin, ensure you have the following installed:
     DATABASE_HOST=localhost
     DATABASE_USER=root
     DATABASE_PASSWORD=<your-database-password>
-    DATABASE_NAME=real_estate_app
+    DATABASE_NAME=chereta
     JWT_SECRET=<your-jwt-secret>
     ```
 
